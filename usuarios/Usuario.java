@@ -1,11 +1,17 @@
 package usuarios;
 
-class Usuario{
-    private String nombre, apellido, contraseña, pseudonimo;
-    
-    
-    
-    
+class Usuario {
+    private int puntaje;
+    private String nombre, apellido, usuario;
+    private Administrador admin;
+
+    public Usuario(String nombre, String apellido, String usuario) {
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.usuario = usuario;
+        this.admin = null;
+    }
+
     // getters
 
     public String getNombre() {
@@ -16,16 +22,14 @@ class Usuario{
         return apellido;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getUsuario() {
+        return usuario;
     }
-    
-    
 
-    public String getPseudonimo() {
-        return pseudonimo;
+    public int getPuntaje() {
+        return puntaje;
     }
-    
+
     // setters
 
     public void setNombre(String nombre) {
@@ -36,15 +40,12 @@ class Usuario{
         this.apellido = apellido;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setPseudonimo(String usuario) {
+        this.usuario = usuario;
     }
 
-    
-    
-    public void setPseudonimo(String pseudonimo) {
-        this.pseudonimo = pseudonimo;
+    public void setAdmin(Administrador admin) {
+        this.admin = admin;
     }
-    
-    
+
 }

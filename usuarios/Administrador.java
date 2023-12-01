@@ -1,4 +1,3 @@
-package usuarios;
-
-class Administrador{
+public class Administrador {
+    
 }
