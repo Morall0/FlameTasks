@@ -4,14 +4,18 @@ import java.util.Calendar;
 
 public abstract class Asignacion {
     private byte puntaje;
+    private byte importancia;
+    private byte progreso;
     private String nombre, descripcion;
     private Calendar fecha;
 
-    public Asignacion(String nombre, String descripcion, Calendar fecha) {
+    public Asignacion(String nombre, String descripcion, byte puntaje, Calendar fecha) {
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.fecha = fecha;
-        puntaje = 0;
+        this.puntaje = puntaje;
+        progreso = 0;
+        
     }
 
     // getters

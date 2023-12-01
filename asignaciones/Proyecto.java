@@ -1,5 +1,5 @@
 package asignaciones;
 
-public class Proyectos {
+public class Proyecto {
     
 }
