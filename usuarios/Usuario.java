@@ -1,10 +1,11 @@
 package usuarios;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 
 import asignaciones.*;
 
-class Usuario {
+public class Usuario implements Serializable{
     private int puntaje;
     private String nombre, apellido, usuario;
     private Administrador admin;
