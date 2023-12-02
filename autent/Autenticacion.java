@@ -1,3 +1,5 @@
+package autent;
+
 import java.util.Scanner;
 
 import java.util.Base64;
