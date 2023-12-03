@@ -8,6 +8,10 @@ public class Tarea extends Asignacion {
         super(nombre, descripcion, puntaje, fecha, importancia);
     }
 
+    @Override
+    public String toString(){
+        return getNombre()+"\t"+getStringFecha();
+    }
 
 
 }

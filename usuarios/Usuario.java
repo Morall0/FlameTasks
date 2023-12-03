@@ -75,8 +75,17 @@ public class Usuario implements Serializable{
         return asignaciones.containsKey(nombre);
     }
 
+    
+    public Asignacion buscarAsignacion(String nombre) {
+        return asignaciones.get(nombre);
+    }
+
     public void addAsignacion(Asignacion asignacion) {
         asignaciones.put(asignacion.getNombre(), asignacion);
+    }
+
+    public boolean hayAsignaciones() {
+        return !asignaciones.isEmpty();
     }
 
     public void listarProyectos() {
@@ -104,9 +113,7 @@ public class Usuario implements Serializable{
             String fecha;
             
             if(asignacion.getClass().getSimpleName().equals("Tarea")) {
-                nombre = asignacion.getNombre();
-                fecha = asignacion.getStringFecha();
-                System.out.println(nombre+"\t"+fecha);
+                System.out.println(((Tarea)asignacion).toString());
             } 
         }
     }
@@ -121,18 +128,14 @@ public class Usuario implements Serializable{
             String fecha;
 
             if(asignacion.getClass().getSimpleName().equals("Tarea")) {
-                nombre = asignacion.getNombre();
-                fecha = asignacion.getStringFecha();
-                System.out.println(nombre+"\t"+fecha);
+                System.out.println(((Tarea)asignacion).toString());
             } else {
                 ArrayDeque<Tarea> tareas = ((Proyecto)asignacion).getTareas();
-                for(Tarea tarea: tareas) {
-                    nombre = tarea.getNombre();
-                    fecha = tarea.getStringFecha();
-                    System.out.println(nombre+"\t"+fecha);
-                }
+                for(Tarea tarea: tareas)
+                    System.out.println(tarea.toString()+"\t"+asignacion.getNombre());
                 System.out.println();
             }
         }
+        System.out.println();
     }
 }
