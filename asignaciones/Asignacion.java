@@ -94,6 +94,6 @@ public abstract class Asignacion implements Serializable, Comparable<Asignacion>
 
     @Override
     public int compareTo(Asignacion asignacion) {
-        return this.compareTo(asignacion);
+        return this.fecha.compareTo(asignacion.fecha);
     }
 }
