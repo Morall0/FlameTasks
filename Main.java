@@ -25,7 +25,7 @@ public class Main {
             System.out.println("2. Editar tarea ");
             System.out.println("3. Listar tareas");
             System.out.println("4. Marcar tarea como completada");
-            System.out.println("6. Crear proyecto");
+            System.out.println("5. Crear proyecto");
             System.out.println("6. Editar proyecto");
             System.out.println("7. Listar proyectos");
             System.out.println("8. Ver proyecto");
@@ -70,6 +70,7 @@ public class Main {
                     break;
 
                 case 5:
+                    crearProyecto(usuario);
                     break;
 
                 case 6:
@@ -79,6 +80,13 @@ public class Main {
                     break;
 
                 case 8:
+                    System.out.print("Ingresa el nombre del proyecto: ");
+                    nombre = scan.nextLine();
+                    if (usuario.existeAsignacion(nombre)) {
+                        Proyecto proyecto = (Proyecto) usuario.buscarAsignacion(nombre);
+                        proyecto.showProyecto();
+                    } else
+                        System.out.println("\nNo existe el proyecto indicado!\n");
                     break;
                 
                 case 9:
@@ -90,7 +98,7 @@ public class Main {
                     System.out.println("\nSelecciona una opción válida!\n");
                     break;
             }
-        } while (opt != 6);
+        } while (opt != 9);
 
         scan.close();
     }

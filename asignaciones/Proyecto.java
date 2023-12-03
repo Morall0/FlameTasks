@@ -24,7 +24,7 @@ public class Proyecto extends Asignacion {
     }
 
     public void showProyecto() {
-        System.out.println("Proyecto: "+this.getNombre());
+        System.out.println("\n"+this.getNombre());
         System.out.println(this.getDescripcion());
         System.out.println("Fecha: "+this.getStringFecha());
         System.out.println("Tareas:");
