@@ -186,6 +186,7 @@ public class Autenticacion {
                 datos = scanFile.nextLine().split(" ");  
                 if (datos[0].equals(usuario)) {
                     System.out.println("\nEl nombre de usuario ya está ocupado!");
+                    scanFile.close();
                     return false; 
                 }
             }
@@ -197,7 +198,7 @@ public class Autenticacion {
         return true;
     }
 
-    private static boolean registrarAtributos(Usuario usuario) {
+    public static boolean registrarAtributos(Usuario usuario) {
         File archivo = new File("./registros/"+usuario.getUsuario());
 
         try {
