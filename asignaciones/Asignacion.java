@@ -5,7 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
-public abstract class Asignacion implements Serializable {
+public abstract class Asignacion implements Serializable, Comparable<Asignacion> {
     private int puntaje;
     private byte importancia;
     private byte progreso;
@@ -90,5 +90,10 @@ public abstract class Asignacion implements Serializable {
 
     public void addPuntaje(int puntaje) {
         this.puntaje += puntaje > 0 ? puntaje : 0;
+    }
+
+    @Override
+    public int compareTo(Asignacion asignacion) {
+        return this.compareTo(asignacion);
     }
 }

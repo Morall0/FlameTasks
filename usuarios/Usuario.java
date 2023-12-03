@@ -2,27 +2,23 @@ package usuarios;
 
 import java.io.Serializable;
 import java.util.ArrayDeque;
-import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Map;
-import java.util.Set;
-
+import java.util.PriorityQueue;
 
 import asignaciones.*;
-import asignaciones.Proyecto;
 
 public class Usuario implements Serializable{
     private int puntaje;
     private String nombre, apellido, usuario;
     private Administrador admin;
-    private HashMap<String, Asignacion> asignaciones;
+    private PriorityQueue<Asignacion> asignaciones;
 
     public Usuario(String nombre, String apellido, String usuario) {
         this.nombre = nombre;
         this.apellido = apellido;
         this.usuario = usuario;
         this.admin = null;
-        asignaciones = new HashMap<String, Asignacion>();
+        asignaciones = new PriorityQueue<Asignacion>();
     }
 
     // getters
@@ -72,16 +68,24 @@ public class Usuario implements Serializable{
     // Métodos extra
 
     public boolean existeAsignacion(String nombre) {
-        return asignaciones.containsKey(nombre);
+        for(Asignacion asignacion: asignaciones) {
+            if (asignacion.getNombre().equals(nombre))
+                return true;
+        }         
+        return false;
     }
-
     
     public Asignacion buscarAsignacion(String nombre) {
-        return asignaciones.get(nombre);
-    }
+        PriorityQueue<Asignacion> tempQueue = new PriorityQueue<Asignacion>(asignaciones);
+        while(!tempQueue.peek().getNombre().equalsIgnoreCase(nombre)){
+            tempQueue.poll();
+        }
+      
+        return tempQueue.poll();
+    } 
 
     public void addAsignacion(Asignacion asignacion) {
-        asignaciones.put(asignacion.getNombre(), asignacion);
+        asignaciones.add(asignacion);
     }
 
     public boolean hayAsignaciones() {
@@ -89,12 +93,11 @@ public class Usuario implements Serializable{
     }
 
     public void listarProyectos() {
-        Iterator<Map.Entry<String, Asignacion>> iterator = asignaciones.entrySet().iterator();
+        Iterator<Asignacion> iterator = asignaciones.iterator();
 
         while (iterator.hasNext()) {
-            Map.Entry<String, Asignacion> elemento = iterator.next();
-            Asignacion asignacion = elemento.getValue();
-            
+            Asignacion asignacion = iterator.next();
+
             if(asignacion.getClass().getSimpleName().equals("Proyecto")) {
                 System.out.println("Nombre: " + asignacion.getNombre());
                 System.out.println("Fecha: " + asignacion.getStringFecha());
@@ -104,13 +107,10 @@ public class Usuario implements Serializable{
     }
 
     public void listarTareas() {
-        Iterator<Map.Entry<String, Asignacion>> iterator = asignaciones.entrySet().iterator();
+        Iterator<Asignacion> iterator = asignaciones.iterator();
 
         while (iterator.hasNext()) {
-            Map.Entry<String, Asignacion> elemento = iterator.next();
-            Asignacion asignacion = elemento.getValue();
-            String nombre;
-            String fecha;
+            Asignacion asignacion = iterator.next();
             
             if(asignacion.getClass().getSimpleName().equals("Tarea")) {
                 System.out.println(((Tarea)asignacion).toString());
@@ -119,13 +119,10 @@ public class Usuario implements Serializable{
     }
 
     public void listarTodo() {
-        Iterator<Map.Entry<String, Asignacion>> iterator = asignaciones.entrySet().iterator();
+        Iterator<Asignacion> iterator = asignaciones.iterator();
 
         while (iterator.hasNext()) {
-            Map.Entry<String, Asignacion> elemento = iterator.next();
-            Asignacion asignacion = elemento.getValue();
-            String nombre;
-            String fecha;
+            Asignacion asignacion = iterator.next();
 
             if(asignacion.getClass().getSimpleName().equals("Tarea")) {
                 System.out.println(((Tarea)asignacion).toString());
