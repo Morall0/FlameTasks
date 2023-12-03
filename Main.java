@@ -165,7 +165,8 @@ public class Main {
 
             switch (opcion) {
                 case 1:
-
+                    System.out.print("Ingrese el nuevo nombre de la asignación: ");
+                    tarea.setNombre(scan.nextLine());
                     break;
 
                 case 2:
