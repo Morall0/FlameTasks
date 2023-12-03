@@ -13,41 +13,75 @@ public class Main {
     public static void main(String[] args) {
         int opt;
         Usuario usuario = Autenticacion.autenticacion();
+        Tarea tarea;
+        String nombre;
         
         if (usuario == null)
             return;
 
         do {
             System.out.println("--- FlameTask ---");
-            System.out.println("1. Crear Tarea");
-            System.out.println("2. Listar tareas ");
-            System.out.println("3. Crear proyecto");
-            System.out.println("4. Listar proyectos");
-            System.out.println("5. Salir");
+            System.out.println("1. Crear tarea");
+            System.out.println("2. Editar tarea ");
+            System.out.println("3. Listar tareas");
+            System.out.println("4. Marcar tarea como completada");
+            System.out.println("6. Crear proyecto");
+            System.out.println("6. Editar proyecto");
+            System.out.println("7. Listar proyectos");
+            System.out.println("8. Ver proyecto");
+            System.out.println("9. Salir");
             System.out.print("> ");
             opt = scan.nextInt();
             scan.nextLine();
     
             switch (opt) {
                 case 1:
-                    
+                    System.out.println("\nCrear una tarea");
+                    usuario.addAsignacion(crearTarea());
                     break;
 
                 case 2:
-                    System.out.println("\nTareas:"); 
-                    usuario.listarTodo();
+                    System.out.println("\nEditar una tarea");
+                    System.out.print("Tarea a editar (nombre): ");
+                    nombre = scan.nextLine();
+                    tarea = (Tarea) usuario.buscarAsignacion(nombre);
+                    editarTarea(tarea);
                     break;
 
                 case 3:
-                    crearProyecto(usuario);
+                    if (usuario.hayAsignaciones()) {
+                        System.out.println("\nTodas las tareas:");
+                        usuario.listarTodo();
+                    } else
+                        System.out.println("\nNo hay asignaciones por el momento\n");
                     break;
 
                 case 4:
-                    System.out.println("\nProyectos:");
-                    usuario.listarProyectos();
+                    System.out.println("\nMarcar como completada");
+                    usuario.listarTodo();
+                    System.out.print("\nNombre de la tarea: "); 
+                    nombre = scan.nextLine(); 
+                    if (usuario.existeAsignacion(nombre)) {
+                        tarea = (Tarea) usuario.buscarAsignacion(nombre);
+                        tarea.setCompletada(true);
+                        System.out.println("La tarea '"+nombre+"' se marcó como completada!\n");
+                    } else
+                        System.out.println("\nNo existe la tarea indicada!\n");
                     break;
 
                 case 5:
+                    break;
+
+                case 6:
+                    break;
+
+                case 7:
+                    break;
+
+                case 8:
+                    break;
+                
+                case 9:
                     Autenticacion.registrarAtributos(usuario);
                     System.out.println("\nSaliendo...");
                     break;
@@ -56,7 +90,7 @@ public class Main {
                     System.out.println("\nSelecciona una opción válida!\n");
                     break;
             }
-        } while (opt != 5);
+        } while (opt != 6);
 
         scan.close();
     }
@@ -67,19 +101,53 @@ public class Main {
         byte importancia;
         Calendar fecha;
 
-        System.out.println("\nCrear una tarea");
         System.out.print("Nombre: ");
         nombre = scan.nextLine();
+
         System.out.print("Descripción: ");
         descripcion = scan.nextLine();
+
         System.out.print("Puntaje: ");
         puntaje = scan.nextInt();
+        scan.nextLine();
+
         System.out.print("Importancia: ");
         importancia = scan.nextByte();
+        scan.nextLine();
+
         System.out.println("Fecha");
         fecha = scanFecha();
         
         return new Tarea(nombre, descripcion, puntaje, fecha, importancia);
+    }
+
+    public static void editarTarea(Tarea tarea) {
+        String nombre, descripcion;
+        int puntaje;
+        byte importancia;
+        Calendar fecha;
+
+        System.out.print("Nombre: ");
+        nombre = scan.nextLine();
+        tarea.setNombre(nombre);
+
+        System.out.print("Descripción: ");
+        descripcion = scan.nextLine();
+        tarea.setDescripcion(descripcion);
+
+        System.out.print("Puntaje: ");
+        puntaje = scan.nextInt();
+        scan.nextLine();
+        tarea.setPuntaje(puntaje);
+
+        System.out.print("Importancia: ");
+        importancia = scan.nextByte();
+        scan.nextLine();
+        tarea.setImportancia(importancia);
+
+        System.out.println("Fecha");
+        fecha = scanFecha();
+        tarea.setFecha(fecha);
     }
 
     public static void crearProyecto(Usuario usuario) {
