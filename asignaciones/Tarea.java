@@ -4,8 +4,8 @@ import java.util.Calendar;
 
 public class Tarea extends Asignacion {
 
-    public Tarea(String nombre, String descripcion, byte puntaje, Calendar fecha, byte importancia) {
-        super(nombre, descripcion, puntaje, fecha);
+    public Tarea(String nombre, String descripcion, int puntaje, Calendar fecha, byte importancia) {
+        super(nombre, descripcion, puntaje, fecha, importancia);
     }
 
 
