@@ -80,7 +80,7 @@ public class Main {
                     break;
 
                 case 8:
-                    System.out.print("Ingresa el nombre del proyecto: ");
+                    System.out.print("\nNombre del proyecto: ");
                     nombre = scan.nextLine();
                     if (usuario.existeAsignacion(nombre)) {
                         Proyecto proyecto = (Proyecto) usuario.buscarAsignacion(nombre);
