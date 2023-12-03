@@ -19,6 +19,10 @@ public class Autenticacion {
         Usuario nuevoUsuario = null;
         String usuario;
         String contrasena;
+            
+        File registros = new File("./registros/");
+        if (registros.exists() == false)
+            registros.mkdir();
 
         do {
             System.out.println("--- FlameTasks ---");
