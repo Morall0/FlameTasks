@@ -1,7 +1,7 @@
 import usuarios.Usuario;
 import java.util.Scanner;
 import asignaciones.*;
-import java.util.Calendar;
+import java.util.Calendar; 
 import autent.Autenticacion;
 
 public class Main {
@@ -303,7 +303,7 @@ public class Main {
                 + " ordenar la información en cuestión: ");
         System.out.println("1. Por fecha");
         System.out.println("2. Por importancia");
-        System.out.print(">");
+        System.out.print("> ");
         int opcion = scan.nextInt();
         scan.nextLine();
 
