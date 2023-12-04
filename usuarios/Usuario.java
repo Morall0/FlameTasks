@@ -4,9 +4,9 @@ import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Iterator;
 import java.util.PriorityQueue;
+import java.util.Comparator;
 
 import asignaciones.*;
-import java.util.Collections;
 
 public class Usuario implements Serializable{
     private int puntaje;
@@ -143,45 +143,25 @@ public class Usuario implements Serializable{
         }
     }
     
-    //public void listarPorFecha(){
-    //    DateBasedComparator DBComp = new DateBasedComparator();
-    //    PriorityQueue<Asignacion> tempQueue = new PriorityQueue<Asignacion>(asignaciones);
-    //    Collections.sort(tempQueue, DBComp);
-    //    Iterator<Asignacion> iterator = tempQueue.iterator();
-    //    
-    //    while (iterator.hasNext()) {
-    //        Asignacion asignacion = iterator.next();
+    public void listarPorImportancia(){
+        Comparator<Asignacion> customComparator = Comparator.comparing(Asignacion::getImportancia).reversed();
+        PriorityQueue<Asignacion> tempQueue = new PriorityQueue<Asignacion>(customComparator);
+        tempQueue.addAll(asignaciones);
+        
+        Iterator<Asignacion> iterator = tempQueue.iterator();
+        
+        while (iterator.hasNext()) {
+            Asignacion asignacion = iterator.next();
 
-    //        if(asignacion.getClass().getSimpleName().equals("Tarea")) {
-    //            System.out.println(((Tarea)asignacion).toString());
-    //        } else {
-    //            ArrayDeque<Tarea> tareas = ((Proyecto)asignacion).getTareas();
-    //            for(Tarea tarea: tareas)
-    //                System.out.println(tarea.toString()+"\t"+asignacion.getNombre());
-    //            System.out.println();
-    //        }
-    //    }
-    //}
-    
-    //public void listarPorImportancia(){
-    //    ImportanceBasedComparator IBComp = new ImportanceBasedComparator();
-    //    PriorityQueue<Asignacion> tempQueue = new PriorityQueue<Asignacion>(asignaciones);
-    //    Collections.sort(tempQueue, IBComp);
-    //    
-    //    Iterator<Asignacion> iterator = tempQueue.iterator();
-    //    
-    //    while (iterator.hasNext()) {
-    //        Asignacion asignacion = iterator.next();
-
-    //        if(asignacion.getClass().getSimpleName().equals("Tarea")) {
-    //            System.out.println(((Tarea)asignacion).toString());
-    //        } else {
-    //            ArrayDeque<Tarea> tareas = ((Proyecto)asignacion).getTareas();
-    //            for(Tarea tarea: tareas)
-    //                System.out.println(tarea.toString()+"\t"+asignacion.getNombre());
-    //            System.out.println();
-    //        }
-    //    }
-    //    
-    //}
+            if(asignacion.getClass().getSimpleName().equals("Tarea")) {
+                System.out.println(((Tarea)asignacion).toString());
+            } else {
+                ArrayDeque<Tarea> tareas = ((Proyecto)asignacion).getTareas();
+                for(Tarea tarea: tareas)
+                    System.out.println(tarea.toString()+"\t"+asignacion.getNombre());
+                System.out.println();
+            }
+        }
+        
+    }
 }
