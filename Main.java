@@ -1,7 +1,7 @@
 import usuarios.Usuario;
 import java.util.Scanner;
 import asignaciones.*;
-import java.util.Calendar;
+import java.util.Calendar; 
 import autent.Autenticacion;
 
 public class Main {
@@ -19,7 +19,7 @@ public class Main {
         do {
             System.out.println("--- FlameTask ---");
             System.out.println("1. Crear tarea");
-            System.out.println("2. Editar tarea ");
+            System.out.println("2. Editar tarea");
             System.out.println("3. Listar tareas");
             System.out.println("4. Marcar tarea como completada");
             System.out.println("5. Crear proyecto");
@@ -39,10 +39,7 @@ public class Main {
 
                 case 2:
                     System.out.println("\nEditar una tarea");
-                    System.out.print("Tarea a editar (nombre): ");
-                    nombre = scan.nextLine();
-                    tarea = (Tarea) usuario.buscarAsignacion(nombre);
-                    editarTarea(tarea);
+                    menuEditarTarea(usuario);
                     break;
 
                 case 3:
@@ -74,6 +71,12 @@ public class Main {
                     break;
 
                 case 7:
+                    System.out.println("\nProyectos");
+                    if (usuario.hayProyectos())
+                        usuario.listarProyectos();
+                    else {
+                        System.out.println("\nNo hay proyectos por el momento\n");
+                    }
                     break;
 
                 case 8:
@@ -126,42 +129,63 @@ public class Main {
         return new Tarea(nombre, descripcion, puntaje, fecha, importancia);
     }
 
-    // public static void editarTarea(Tarea tarea) {
-    //     String nombre, descripcion;
-    //     int puntaje;
-    //     byte importancia;
-    //     Calendar fecha;
+    private static void menuEditarTarea(Usuario usuario) {
+        int opt; 
+        String nombre;
+        Proyecto proyecto = null;
+        Tarea tarea = null;
 
-    //     System.out.print("Nombre: ");
-    //     nombre = scan.nextLine();
-    //     tarea.setNombre(nombre);
+        System.out.println("1. Editar tarea");
+        System.out.println("2. Editar tarea de un proyecto");
+        System.out.println("3. Cancelar edición");
+        System.out.print("> ");
+        opt = scan.nextInt();
+        scan.nextLine();
+        
+        do {
+            switch(opt) {
+                case 1:
+                    System.out.print("\nNombre de la tarea: ");
+                    nombre = scan.nextLine();
+                    System.out.println();
+                    tarea = (Tarea) usuario.buscarAsignacion(nombre);
+                    if (tarea != null) {
+                        editarTarea(tarea);
+                    } else
+                        System.out.println("\nLa tarea no existe\n");
+                    break;
 
-    //     System.out.print("DescripciÃ³n: ");
-    //     descripcion = scan.nextLine();
-    //     tarea.setDescripcion(descripcion);
+                case 2:
+                    System.out.print("\nNombre del proyecto: ");
+                    nombre = scan.nextLine(); 
+                    proyecto = (Proyecto) usuario.buscarAsignacion(nombre);
+                    if (proyecto != null) {
+                        System.out.print("Nombre de la tarea: ");
+                        nombre = scan.nextLine();
+                        System.out.println();
+                        tarea = proyecto.buscarTarea(nombre);
+                        if (tarea != null)
+                            editarTarea(tarea);
+                        else
+                            System.out.println("\nLa tarea no existe\n");
+                    } else
+                        System.out.println("\nEl proyecto no existe\n");
+                    break;
 
-    //     System.out.print("Puntaje: ");
-    //     puntaje = scan.nextInt();
-    //     scan.nextLine();
-    //     tarea.setPuntaje(puntaje);
-
-    //     System.out.print("Importancia: ");
-    //     importancia = scan.nextByte();
-    //     scan.nextLine();
-    //     tarea.setImportancia(importancia);
-
-    //     System.out.println("Fecha");
-    //     fecha = scanFecha();
-    //     tarea.setFecha(fecha);
-    // }
+                case 3:
+                    break;
+                default:
+                    System.out.println("\nSelecciona una opción válida!\n");
+                    break;
+            }
+        } while (opt < 1 || opt > 3);
+    }
 
     private static void editarTarea(Tarea tarea) {
         int opcion;
-        if(tarea == null){
-            return;
-        }
+
         do {
-            System.out.println("Edición de tareas");
+            System.out.println("\nEdición de tareas");
             System.out.println("1. Cambiar nombre");
             System.out.println("2. Cambiar descripción");
             System.out.println("3. Cambiar fecha");
@@ -170,6 +194,7 @@ public class Main {
             System.out.println("6. Regresar al menú principal");
             System.out.print("> ");
             opcion = scan.nextInt();
+            scan.nextLine();
 
             switch (opcion) {
                 case 1:
@@ -191,6 +216,7 @@ public class Main {
                 case 4:
                     System.out.print("Ingrese el nuevo puntaje: ");
                     tarea.setPuntaje(scan.nextInt());
+                    scan.nextLine();
                     break;
 
                 case 5:
@@ -199,7 +225,7 @@ public class Main {
                     break;
 
                 case 6:
-                    System.out.println("Regresando al menú principal");
+                    System.out.println();
                     break;
 
                 default:
@@ -241,6 +267,7 @@ public class Main {
             System.out.println("[Y] Sí, [N] No");
             System.out.print("> ");
             rep = (scan.nextLine().equalsIgnoreCase("y")) ? 0 : 1;
+            System.out.println();
         }
     }
 
@@ -271,25 +298,27 @@ public class Main {
 
         return fechaAsignacion;
     }
-    
+
     private static void elegirOrdenamiento(Usuario usuario){
-        System.out.println("Introduzca la forma en que quiere"
-                                + " ordenar la información en cuestión: ");
+        System.out.println("\nIntroduzca la forma en que quiere"
+                + " ordenar la información en cuestión: ");
         System.out.println("1. Por fecha");
         System.out.println("2. Por importancia");
-        System.out.println(">");
+        System.out.print("> ");
         int opcion = scan.nextInt();
+        scan.nextLine();
+
         switch(opcion){
             case 1:
-                //usuario.listarPorFecha();
+                usuario.listarTodo();
                 break;
             case 2:
-                //usuario.listarPorImportancia();
+                usuario.listarPorImportancia();
                 break;
             default:
                 System.out.println("Introduzca una opción válida.");
         }
-        
+
     }
 
 }
