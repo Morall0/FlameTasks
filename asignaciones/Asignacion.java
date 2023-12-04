@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.Scanner;
+
 
 public abstract class Asignacion implements Serializable, Comparable<Asignacion> {
     private int puntaje;
