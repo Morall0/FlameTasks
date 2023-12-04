@@ -51,7 +51,7 @@ public class Main {
 
                 case 4:
                     System.out.println("\nMarcar como completada");
-                    usuario.listarTodo();
+                    usuario.listarTodo(0);
                     System.out.print("\nNombre de la tarea: ");
                     nombre = scan.nextLine();
                     if (usuario.existeAsignacion(nombre)) {
@@ -310,7 +310,7 @@ public class Main {
 
         switch(opcion){
             case 1:
-                usuario.listarTodo();
+                usuario.listarTodo(0);
                 break;
             case 2:
                 usuario.listarPorImportancia();

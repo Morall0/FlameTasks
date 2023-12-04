@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public abstract class Asignacion implements Serializable, Comparable<Asignacion> {
+    private static final long serialVersionUID = 6529685098267757690L;
     private int puntaje;
     private byte importancia;
     private byte progreso;

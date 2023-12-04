@@ -10,6 +10,8 @@ import java.util.Comparator;
 import asignaciones.*;
 
 public class Usuario implements Serializable{
+    private static final long serialVersionUID = 6529685098267757690L;
+
     private int puntaje;
     private String nombre, apellido, usuario;
     private Administrador admin;
