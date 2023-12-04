@@ -3,9 +3,11 @@ package usuarios;
 import java.io.Serializable;
 import java.util.ArrayDeque;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 import java.util.Comparator;
+import java.util.LinkedList;
 
 import asignaciones.*;
 
@@ -152,46 +154,31 @@ public class Usuario implements Serializable{
     }
 
     public void listarTodo(int mode) {
-        Iterator<Asignacion> iterator;
+        LinkedList<Asignacion> tempList;
 
         if(mode == 0)
-            iterator = asignaciones.iterator();
+            tempList = new LinkedList<Asignacion>(asignaciones);
         else 
-            iterator = historial.iterator();
+            tempList = new LinkedList<Asignacion>(historial);
        
 
-        while (iterator.hasNext()) {
-            Asignacion asignacion = iterator.next();
+        Comparator<Asignacion> customComparator = Comparator.comparing(Asignacion::getFecha);
+        Collections.sort(tempList, customComparator);
+        
+        for(Asignacion asignacion : tempList){
+            System.out.println(asignacion.toString());
 
-            if(asignacion.getClass().getSimpleName().equals("Tarea")) {
-                System.out.println(((Tarea)asignacion).toString());
-            } else {
-                ArrayDeque<Tarea> tareas = ((Proyecto)asignacion).getTareas();
-                for(Tarea tarea: tareas)
-                    System.out.println(tarea.toString()+"\t"+asignacion.getNombre());
-                System.out.println();
-            }
         }
     }
     
     public void listarPorImportancia(){
         Comparator<Asignacion> customComparator = Comparator.comparing(Asignacion::getImportancia).reversed();
-        PriorityQueue<Asignacion> tempQueue = new PriorityQueue<Asignacion>(customComparator);
-        tempQueue.addAll(asignaciones);
+        LinkedList<Asignacion> tempList = new LinkedList<Asignacion>(asignaciones);
+        Collections.sort(tempList, customComparator);
         
-        Iterator<Asignacion> iterator = tempQueue.iterator();
-        
-        while (iterator.hasNext()) {
-            Asignacion asignacion = iterator.next();
+        for(Asignacion asignacion : tempList){
+            System.out.println(asignacion.toString());
 
-            if(asignacion.getClass().getSimpleName().equals("Tarea")) {
-                System.out.println(((Tarea)asignacion).toString());
-            } else {
-                ArrayDeque<Tarea> tareas = ((Proyecto)asignacion).getTareas();
-                for(Tarea tarea: tareas)
-                    System.out.println(tarea.toString()+"\t"+asignacion.getNombre());
-                System.out.println();
-            }
         }
         
     }
