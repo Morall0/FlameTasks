@@ -2,6 +2,7 @@ package usuarios;
 
 import java.io.Serializable;
 import java.util.ArrayDeque;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.PriorityQueue;
 
@@ -13,6 +14,7 @@ public class Usuario implements Serializable{
     private String nombre, apellido, usuario;
     private Administrador admin;
     private PriorityQueue<Asignacion> asignaciones;
+    private PriorityQueue<Asignacion> historial;
 
     public Usuario(String nombre, String apellido, String usuario) {
         this.nombre = nombre;
@@ -20,6 +22,7 @@ public class Usuario implements Serializable{
         this.usuario = usuario;
         this.admin = null;
         asignaciones = new PriorityQueue<Asignacion>();
+        historial = new PriorityQueue<Asignacion>();
     }
 
     // getters
@@ -93,6 +96,26 @@ public class Usuario implements Serializable{
         return !asignaciones.isEmpty();
     }
 
+    public void actualizarHistorial(Tarea tarea) {
+        boolean flag = false;
+        for(Asignacion asig : historial)
+            if(tarea.getNombre().equalsIgnoreCase(asig.getNombre()))
+                flag = true;
+        
+        if(flag)
+            return;
+        
+        historial.add(tarea);
+    }
+
+    public Asignacion borrarAsignacion(Asignacion asignacion) {
+        if(asignacion != null) {
+            asignaciones.remove(asignacion);
+            asignaciones.remove(asignacion);
+        } 
+        return asignacion;
+    }
+
     public void listarProyectos() {
         Iterator<Asignacion> iterator = asignaciones.iterator();
 
@@ -119,8 +142,14 @@ public class Usuario implements Serializable{
         }
     }
 
-    public void listarTodo() {
-        Iterator<Asignacion> iterator = asignaciones.iterator();
+    public void listarTodo(int mode) {
+        Iterator<Asignacion> iterator;
+
+        if(mode == 0)
+            iterator = asignaciones.iterator();
+        else 
+            iterator = historial.iterator();
+       
 
         while (iterator.hasNext()) {
             Asignacion asignacion = iterator.next();

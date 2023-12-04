@@ -60,6 +60,7 @@ public class Main {
                     if (usuario.existeAsignacion(nombre)) {
                         tarea = (Tarea) usuario.buscarAsignacion(nombre);
                         tarea.setCompletada(true);
+                        usuario.actualizarHistorial(tarea);
                         System.out.println("La tarea '" + nombre + "' se marcó como completada!\n");
                     } else
                         System.out.println("\nNo existe la tarea indicada!\n");
