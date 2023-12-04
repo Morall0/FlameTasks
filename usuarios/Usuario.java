@@ -82,13 +82,13 @@ public class Usuario implements Serializable{
         }         
         return false;
     }
-    
+
     public Asignacion buscarAsignacion(String nombre) {
         PriorityQueue<Asignacion> tempQueue = new PriorityQueue<Asignacion>(asignaciones);
         while(!tempQueue.peek().getNombre().equalsIgnoreCase(nombre)){
             tempQueue.poll();
         }
-      
+
         return tempQueue.poll();
     } 
 
@@ -105,10 +105,10 @@ public class Usuario implements Serializable{
         for(Asignacion asig : historial)
             if(tarea.getNombre().equalsIgnoreCase(asig.getNombre()))
                 flag = true;
-        
+
         if(flag)
             return;
-        
+
         historial.add(tarea);
     }
 
@@ -119,7 +119,7 @@ public class Usuario implements Serializable{
         } 
         return asignacion;
     }
-    
+
     public boolean hayProyectos() {
         for (Asignacion asignacion : asignaciones)
             if(asignacion.getClass().getSimpleName().equals("Proyecto"))
@@ -146,7 +146,7 @@ public class Usuario implements Serializable{
 
         while (iterator.hasNext()) {
             Asignacion asignacion = iterator.next();
-            
+
             if(asignacion.getClass().getSimpleName().equals("Tarea")) {
                 System.out.println(((Tarea)asignacion).toString());
             } 
@@ -160,26 +160,38 @@ public class Usuario implements Serializable{
             tempList = new LinkedList<Asignacion>(asignaciones);
         else 
             tempList = new LinkedList<Asignacion>(historial);
-       
+
 
         Comparator<Asignacion> customComparator = Comparator.comparing(Asignacion::getFecha);
         Collections.sort(tempList, customComparator);
-        
-        for(Asignacion asignacion : tempList){
-            System.out.println(asignacion.toString());
 
-        }
+        for(Asignacion asignacion : tempList)
+            if(asignacion.getClass().getSimpleName().equals("Tarea")) {
+                System.out.println(((Tarea)asignacion).toString());
+            } else {
+                LinkedList<Tarea> tareas = new LinkedList<Tarea>(((Proyecto)asignacion).getTareas());
+                Collections.sort(tareas, customComparator);
+                for(Tarea tarea: tareas)
+                    System.out.println(tarea.toString()+"\t"+asignacion.getNombre());
+            }
     }
-    
+
     public void listarPorImportancia(){
         Comparator<Asignacion> customComparator = Comparator.comparing(Asignacion::getImportancia).reversed();
-        LinkedList<Asignacion> tempList = new LinkedList<Asignacion>(asignaciones);
-        Collections.sort(tempList, customComparator);
+        LinkedList<Asignacion> tempList = new LinkedList<Asignacion>();
         
-        for(Asignacion asignacion : tempList){
-            System.out.println(asignacion.toString());
-
+        for (Asignacion asignacion : asignaciones) {
+            if(asignacion.getClass().getSimpleName().equals("Tarea"))
+                tempList.add((Tarea) asignacion);
+            else
+                for (Tarea tarea : ((Proyecto)asignacion).getTareas()) {
+                    tempList.add(tarea);
+                }
         }
         
+        Collections.sort(tempList, customComparator);
+
+        for(Asignacion asignacion : tempList)
+            System.out.println(((Tarea)asignacion).toString());
     }
 }
