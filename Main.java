@@ -135,7 +135,7 @@ public class Main {
     //     nombre = scan.nextLine();
     //     tarea.setNombre(nombre);
 
-    //     System.out.print("Descripci贸n: ");
+    //     System.out.print("Descripci脙鲁n: ");
     //     descripcion = scan.nextLine();
     //     tarea.setDescripcion(descripcion);
 
@@ -215,7 +215,7 @@ public class Main {
         System.out.print("Nombre del proyecto: ");
         nombre = scan.nextLine();
         while (usuario.existeAsignacion(nombre)) {
-            System.out.println("El nombre del proyecto ya se encuentra en uso.");
+            System.out.println("El nombre del proyecto ya se encuentra en uso!");
             System.out.print("Nombre del proyecto: ");
             nombre = scan.nextLine();
         }
@@ -264,7 +264,7 @@ public class Main {
         int dif = fechaAsignacion.compareTo(fechaActual);
 
         if (dif < 0) {
-            System.out.println("Fecha inv谩lida. Ingrese una fecha posterior a la actual");
+            System.out.println("Fecha inv谩lida! Ingrese una fecha posterior a la actual");
             return scanFecha();
         }
 
@@ -273,20 +273,20 @@ public class Main {
     
     private static void elegirOrdenamiento(Usuario usuario){
         System.out.println("Introduzca la forma en que quiere"
-                                + " ordenar la informaci髇 en cuesti髇: ");
+                                + " ordenar la informaci贸n en cuesti贸n: ");
         System.out.println("1. Por fecha");
         System.out.println("2. Por importancia");
         System.out.println(">");
         int opcion = scan.nextInt();
         switch(opcion){
             case 1:
-                usuario.listarPorFecha();
+                //usuario.listarPorFecha();
                 break;
             case 2:
-                usuario.listarPorImportancia();
+                //usuario.listarPorImportancia();
                 break;
             default:
-                System.out.println("Introduzca una opcion valida.");
+                System.out.println("Introduzca una opci贸n v谩lida.");
         }
         
     }
