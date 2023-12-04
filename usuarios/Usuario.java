@@ -93,6 +93,13 @@ public class Usuario implements Serializable{
         return !asignaciones.isEmpty();
     }
 
+    public boolean hayProyectos() {
+        for (Asignacion asignacion : asignaciones)
+            if(asignacion.getClass().getSimpleName().equals("Proyecto"))
+                return true;
+        return false;
+    }
+
     public void listarProyectos() {
         Iterator<Asignacion> iterator = asignaciones.iterator();
 

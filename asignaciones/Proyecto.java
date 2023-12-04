@@ -40,6 +40,13 @@ public class Proyecto extends Asignacion {
         }
     }
 
+    public Tarea buscarTarea(String nombre) {
+        for (Tarea tarea : tareas)
+            if (tarea.getNombre().equals(nombre)) 
+                return tarea;
+        return null;
+    }
+
     public ArrayDeque<Tarea> getTareas() {
         return this.tareas;
     }
