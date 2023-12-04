@@ -276,14 +276,14 @@ public class Main {
                                 + " ordenar la información en cuestión: ");
         System.out.println("1. Por fecha");
         System.out.println("2. Por importancia");
-        System.out.println(">");
+        System.out.print(">");
         int opcion = scan.nextInt();
         switch(opcion){
             case 1:
-                //usuario.listarPorFecha();
+                usuario.listarTodo();
                 break;
             case 2:
-                //usuario.listarPorImportancia();
+                usuario.listarPorImportancia();
                 break;
             default:
                 System.out.println("Introduzca una opción válida.");

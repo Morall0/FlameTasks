@@ -10,7 +10,7 @@ public class Tarea extends Asignacion {
 
     @Override
     public String toString(){
-        return getNombre()+"\t"+getStringFecha();
+        return getNombre()+"\t"+"IMPORTANCIA: "+ getImportancia()+ "\t" +getStringFecha();
     }
 
 
