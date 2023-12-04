@@ -1,7 +1,9 @@
 import usuarios.Usuario;
 import java.util.Scanner;
 import asignaciones.*;
-import java.util.Calendar; 
+import java.util.Calendar;
+import java.util.InputMismatchException;
+
 import autent.Autenticacion;
 
 public class Main {
@@ -28,7 +30,12 @@ public class Main {
             System.out.println("8. Ver proyecto");
             System.out.println("9. Salir");
             System.out.print("> ");
-            opt = scan.nextInt();
+            try{
+                opt = scan.nextInt();
+            }catch(InputMismatchException e){
+                System.out.println("El valor introducido no es válido.");
+                opt = -1;
+            }
             scan.nextLine();
 
             switch (opt) {
@@ -115,12 +122,29 @@ public class Main {
         System.out.print("Descripción: ");
         descripcion = scan.nextLine();
 
-        System.out.print("Puntaje: ");
-        puntaje = scan.nextInt();
-        scan.nextLine();
+        do{
+            try{
+                System.out.print("Puntaje: ");
+                puntaje = scan.nextInt();
+                scan.nextLine();
+
+            }catch(InputMismatchException e){
+                System.out.println("Este puntaje no es válido.");
+                puntaje = -1;
+            }
+        }while(puntaje == -1);
+        
 
         System.out.print("Importancia: ");
-        importancia = scan.nextByte();
+        do{
+            System.out.print("Importancia: ");
+            try{
+                importancia = scan.nextByte();
+            }catch(InputMismatchException e){
+                System.out.println("Este valor no es válido.");
+                importancia = -1;
+            }
+        }while(importancia == -1);
         scan.nextLine();
 
         System.out.println("Fecha");
@@ -139,7 +163,11 @@ public class Main {
         System.out.println("2. Editar tarea de un proyecto");
         System.out.println("3. Cancelar edición");
         System.out.print("> ");
-        opt = scan.nextInt();
+        try{
+            opt = scan.nextInt();
+        }catch(InputMismatchException e){
+            opt = 0;
+        }
         scan.nextLine();
         
         do {
@@ -193,7 +221,11 @@ public class Main {
             System.out.println("5. Cambiar importancia");
             System.out.println("6. Regresar al menú principal");
             System.out.print("> ");
-            opcion = scan.nextInt();
+            try{
+                opcion = scan.nextInt();
+            }catch(InputMismatchException e){
+                opcion = 0;
+            }
             scan.nextLine();
 
             switch (opcion) {
@@ -277,18 +309,32 @@ public class Main {
         Calendar fechaActual = Calendar.getInstance();
         fechaActual.set(Calendar.HOUR_OF_DAY, 0);
 
-        System.out.print("Día: ");
-        dia = scan.nextInt();
-        scan.nextLine();
-        System.out.print("Mes: ");
-        mes = scan.nextInt();
-        scan.nextLine();
-        System.out.print("Año: ");
-        anio = scan.nextInt();
-        scan.nextLine();
+        try{
+            System.out.print("Día: ");
+            dia = scan.nextInt();
+            if(dia > 31 || dia < 1){
+                throw new IllegalArgumentException();
+            }
+            scan.nextLine();
+            System.out.print("Mes: ");
+            mes = scan.nextInt();
+            if(mes > 12 || mes < 0){
+                throw new IllegalArgumentException();
+            }
+            scan.nextLine();
+            System.out.print("Año: ");
+            anio = scan.nextInt();
+            scan.nextLine();
+        }catch(IllegalArgumentException e){
+            System.out.println("El valor introducido es erróneo. Intente de nuevo.");
+            return scanFecha();
+        }catch(InputMismatchException e){
+            System.out.println("El tipo de valor introducido es erróneo. Intente de nuevo.");
+            return scanFecha();
+        }
+        
         fechaAsignacion.set(anio, mes - 1, dia);
         System.out.println();
-
         int dif = fechaAsignacion.compareTo(fechaActual);
 
         if (dif < 0) {
@@ -300,12 +346,18 @@ public class Main {
     }
 
     private static void elegirOrdenamiento(Usuario usuario){
+        int opcion;
         System.out.println("\nIntroduzca la forma en que quiere"
                 + " ordenar la información en cuestión: ");
         System.out.println("1. Por fecha");
         System.out.println("2. Por importancia");
         System.out.print("> ");
-        int opcion = scan.nextInt();
+        try{
+            opcion = scan.nextInt();
+        }catch(InputMismatchException e){
+            opcion = 0;
+        }
+        
         scan.nextLine();
 
         switch(opcion){

@@ -3,7 +3,7 @@ package autent;
 import java.util.Scanner;
 
 import java.util.Base64;
-
+import java.util.InputMismatchException;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -30,7 +30,12 @@ public class Autenticacion {
             System.out.println("2. Crear cuenta");
             System.out.println("3. Salir");
             System.out.print("> ");
-            opt = scan.nextInt();
+            try{
+                opt = scan.nextInt();
+
+            }catch(InputMismatchException e){
+                opt = 0;
+            }
             scan.nextLine();
 
             switch(opt) {
