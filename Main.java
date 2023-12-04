@@ -47,8 +47,7 @@ public class Main {
 
                 case 3:
                     if (usuario.hayAsignaciones()) {
-                        System.out.println("\nTodas las tareas:");
-                        usuario.listarTodo();
+                        elegirOrdenamiento(usuario);
                     } else
                         System.out.println("\nNo hay asignaciones por el momento\n");
                     break;
@@ -270,6 +269,26 @@ public class Main {
         }
 
         return fechaAsignacion;
+    }
+    
+    private static void elegirOrdenamiento(Usuario usuario){
+        System.out.println("Introduzca la forma en que quiere"
+                                + " ordenar la información en cuestión: ");
+        System.out.println("1. Por fecha");
+        System.out.println("2. Por importancia");
+        System.out.println(">");
+        int opcion = scan.nextInt();
+        switch(opcion){
+            case 1:
+                usuario.listarPorFecha();
+                break;
+            case 2:
+                usuario.listarPorImportancia();
+                break;
+            default:
+                System.out.println("Introduzca una opcion valida.");
+        }
+        
     }
 
 }
