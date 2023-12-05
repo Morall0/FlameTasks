@@ -3,6 +3,10 @@ import java.util.Scanner;
 import asignaciones.*;
 import java.util.Calendar;
 import java.util.InputMismatchException;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Random;
 
 import autent.Autenticacion;
 
@@ -20,6 +24,10 @@ public class Main {
 
         ((Thread) usuario).start();
 
+
+        System.out.println("--- FlameTask ---");
+
+        countUserPoints(usuario);
         do {
             System.out.println("--- FlameTask ---");
             System.out.println("1. Crear tarea");
@@ -31,7 +39,9 @@ public class Main {
             System.out.println("7. Listar proyectos");
             System.out.println("8. Ver proyecto");
             System.out.println("9. Eliminar tarea o proyecto");
-            System.out.println("10. Salir");
+            System.out.println("10. Minijuego 1");
+            System.out.println("11. Minijuego 2");
+            System.out.println("12. Salir");
             System.out.print("> ");
             try {
                 opt = scan.nextInt();
@@ -70,6 +80,7 @@ public class Main {
                         tarea.setCompletada(true);
                         usuario.actualizarHistorial(tarea);
                         System.out.println("La tarea '" + nombre + "' se marcó como completada!\n");
+                        usuario.setPuntaje(usuario.getPuntaje() + tarea.getPuntaje());
                     } else
                         System.out.println("\nNo existe la tarea indicada!\n");
                     break;
@@ -123,8 +134,25 @@ public class Main {
                     } else
                         System.out.println("\nNo existe la tarea indicada!\n");
                     break;
-
                 case 10:
+                    if(usuario.getPuntaje() >= 15){
+                        usuario.setPuntaje(usuario.getPuntaje() - 15);
+                        ClintEastwood();
+                    } else {
+                        System.out.println("Lo lamento, no tienes el puntaje para pagar por este juego.");
+                    }
+                    
+                    
+                    break;
+                case 11:
+                    if(usuario.getPuntaje() >= 20){
+                        usuario.setPuntaje(usuario.getPuntaje() - 20);
+                        PPT();
+                    } else {
+                        System.out.println("Lo lamento, no tienes el puntaje para pagar por este juego.");
+                    }
+                    break;
+                case 12:
                     Autenticacion.registrarAtributos(usuario);
                     System.out.println("\nSaliendo...");
                     break;
@@ -133,7 +161,7 @@ public class Main {
                     System.out.println("\nSelecciona una opción válida!\n");
                     break;
             }
-        } while (opt != 10);
+        } while (opt != 12);
 
         scan.close();
     }
@@ -484,5 +512,123 @@ public class Main {
                     System.out.println("\nIntroduzca una opción válida!\n");
             }
         }while(opcion != 4);
+    }
+
+    public static void countUserPoints(Usuario usuario){
+        int total_Puntos = 0;
+        for(Asignacion asignacion : usuario.getAsignaciones()){
+            total_Puntos += asignacion.getPuntaje();
+        }
+
+        for(Asignacion asignacion : usuario.getHistorial()){
+            total_Puntos += asignacion.getPuntaje();
+        }
+
+        float porcentaje = ((usuario.getPuntaje())/total_Puntos) * 100;
+
+        System.out.println("PORCENTAJE DE COMPLECIÓN: " + porcentaje);
+
+        if(porcentaje <= 25){
+            System.out.println("Hay muchas tareas qué entregar :(");
+        } else if(porcentaje <= 50){
+            System.out.println("Todavía hay trabajo que hacer, tú puedes!!!");
+        }else if (porcentaje <= 75){
+            System.out.println("No vas mal, pero puedes hacerlo mejor. Sigue así!");
+        }else if(porcentaje <= 100){
+            System.out.println("Vas muy bien!!! Perfecto!!!");
+        }else {
+            System.out.println("WAOW!!!!!!");
+        }
+        
+    }
+
+    public static void ClintEastwood(){
+        Random rando = new Random();
+        double window = rando.nextDouble(.250, .800);
+        Yeehaw();
+        try{
+            System.out.println("Clint Eastwood te ha desafiado a una batalla!");
+            Thread.sleep(2000);
+            System.out.println("Prepárate para presionar enter...");
+            Thread.sleep(2000);
+            System.out.println("Ready...");
+            Thread.sleep(rando.nextLong(1, 3));
+            
+        }catch(InterruptedException e){
+
+        }
+        long start = System.currentTimeMillis();
+        System.out.println("===============");
+        System.out.println("     DRAW!");
+        System.out.println("===============");
+        String placeholder = scan.nextLine();
+        long end = System.currentTimeMillis();
+        long time_elapsed = start - end;
+
+        if(time_elapsed < window){
+            System.out.println("Felicidades!!! Ganaste el duelo!!!");
+        } else {
+            System.out.println("Clint Eastwood ganó, qué pena :(");
+        }
+
+    }
+
+    public static void Yeehaw(){
+        try{
+            BufferedReader reader = new BufferedReader(new FileReader("ClintEastwood.txt"));
+            String line = reader.readLine();
+
+            while(line != null){
+                System.out.println(line);
+                line = reader.readLine();
+            }
+
+            reader.close();
+        }catch(IOException e){
+
+        }
+    }
+
+    public static void PPT(){
+        Random random = new Random();
+
+        String[] opciones = {"piedra", "papel", "tijera"};
+
+        System.out.println("¡Bienvenido a Piedra, Papel o Tijera!");
+
+        while (true) {
+            
+            String opcionComputadora = opciones[random.nextInt(opciones.length)];
+
+            
+            System.out.print("Elige piedra, papel o tijera (o " + "\"salir\" para terminar): ");
+            String opcionUsuario = scan.nextLine().toLowerCase();
+
+            
+            if (opcionUsuario.equals("salir")) {
+                System.out.println("¡Hasta luego!");
+                break;
+            }
+
+            
+            if (!opcionUsuario.equals("piedra") && !opcionUsuario.equals("papel") && !opcionUsuario.equals("tijera")) {
+                System.out.println("Entrada no válida. Por favor, elige piedra, papel o tijera.");
+                continue;
+            }
+
+            
+            System.out.println("La computadora eligió: " + opcionComputadora);
+            System.out.println("Tú elegiste: " + opcionUsuario);
+
+            if (opcionUsuario.equals(opcionComputadora)) {
+                System.out.println("¡Es un empate!");
+            } else if ((opcionUsuario.equals("piedra") && opcionComputadora.equals("tijera")) ||
+                       (opcionUsuario.equals("papel") && opcionComputadora.equals("piedra")) ||
+                       (opcionUsuario.equals("tijera") && opcionComputadora.equals("papel"))) {
+                System.out.println("¡Ganaste!");
+            } else {
+                System.out.println("¡La computadora gana!");
+            }
+        }
     }
 }

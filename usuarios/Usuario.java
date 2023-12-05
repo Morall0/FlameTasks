@@ -57,6 +57,14 @@ public class Usuario extends Thread implements Serializable {
         return admin;
     }
 
+    public PriorityQueue<Asignacion> getAsignaciones(){
+        return asignaciones;
+    }
+
+    public PriorityQueue<Asignacion> getHistorial(){
+        return historial;
+    }
+
     // setters
 
     public void setNombre(String nombre) {
