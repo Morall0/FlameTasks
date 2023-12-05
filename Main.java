@@ -78,17 +78,18 @@ public class Main {
 
                 case 6:
                     if(usuario.hayProyectos()){
+                        System.out.println("\nProyectos actuales:");
                         usuario.listarProyectos();
-                        System.out.println("Introduzca el nombre del proyecto.");
+                        System.out.print("Nombre del proyecto: ");
                         nombre = scan.nextLine();
                         if(usuario.existeAsignacion(nombre)){
                             menuEditarProyectos((Proyecto) usuario.buscarAsignacion(nombre));
                         } else {
-                            System.out.println("El proyecto buscado no existe.");
+                            System.out.println("\nEl proyecto buscado no existe.\n");
                         }
 
                     } else{
-                        System.out.println("No hay proyectos que mostrar por el momento.");
+                        System.out.println("\nNo hay proyectos que mostrar por el momento.\n");
                     }
                     break;
 
@@ -110,7 +111,7 @@ public class Main {
                     } else
                         System.out.println("\nNo existe el proyecto indicado!\n");
                     break;
-                
+
                 case 9: 
                     System.out.print("\nNombre de la asignación: ");
                     nombre = scan.nextLine();
@@ -158,7 +159,7 @@ public class Main {
                 puntaje = -1;
             }
         } while(puntaje == -1);
-        
+
 
         do {
             System.out.print("Importancia: ");
@@ -195,7 +196,7 @@ public class Main {
             scan.nextLine();
             opt = 0;
         }
-        
+
         do {
             switch(opt) {
                 case 1:
@@ -363,7 +364,7 @@ public class Main {
             System.out.println("El tipo de valor introducido es erróneo. Intente de nuevo.");
             return scanFecha();
         }
-        
+
         fechaAsignacion.set(anio, mes - 1, dia);
         System.out.println();
         int dif = fechaAsignacion.compareTo(fechaActual);
@@ -400,7 +401,7 @@ public class Main {
                 usuario.listarPorImportancia();
                 break;
             default:
-                System.out.println("Introduzca una opción válida.");
+                System.out.println("\nIntroduzca una opción válida!\n");
         }
 
     }
@@ -409,80 +410,77 @@ public class Main {
         int opcion;
         String var;
         do{
-            
-            System.out.println("EDITOR DE PROYECTOS");
+
+            System.out.println("\nEditor de proyectos");
             System.out.println("1. Editar información del proyecto.");
             System.out.println("2. Editar información de alguna tarea del proyecto.");
             System.out.println("3. Salir del menú.");
+            System.out.print("> ");
             try{
                 opcion = scan.nextInt();
                 scan.nextLine();
             }catch(InputMismatchException e){opcion = 0; scan.nextLine(); System.out.println();}
-            
+
             switch(opcion){
                 case 1:
+                    System.out.println();
                     subMenuEditarProyectos(proyecto);
                     break;
                 case 2:
                     proyecto.showProyecto();
-                    System.out.println("Introduzca el nombre de la tarea a modificar.");
+                    System.out.print("Tarea a modificar: ");
                     var = scan.nextLine();
                     if(proyecto.buscarTarea(var) != null){
                         editarTarea(proyecto.buscarTarea(var));
                     }else{
-                        System.out.println("Esa tarea no existe.");
+                        System.out.println("\nEsa tarea no existe.\n");
                     }
                     break;
                 case 3:
                     System.out.println();
                     break;
                 default:
-                    System.out.println("Introduzca una opcion correcta.");
-
+                    System.out.println("\nIntroduzca una opción válida!\n");
             }
-
         }while(opcion != 3);
-
     }
 
     public static void subMenuEditarProyectos(Proyecto proyecto){
         int opcion;
         String var;
         do{
-            System.out.println("1. Cambiar nombre.");
-            System.out.println("2. Cambiar fecha.");
+            System.out.println("Edición de un proyecto especifico");
+            System.out.println("1. Cambiar nombre");
+            System.out.println("2. Cambiar fecha");
             System.out.println("3. Cambiar descripcion");
-            System.out.println("4. Salir");
+            System.out.println("4. Regresar");
+            System.out.print("> ");
             try{
                 opcion = scan.nextInt();
             }catch(InputMismatchException e){opcion = 0;}
             scan.nextLine();
             switch(opcion){
                 case 1:
-                    System.out.println("Introduzca el nuevo nombre del proyecto.");
+                    System.out.print("\nNuevo nombre del proyecto: ");
                     var = scan.nextLine();
                     proyecto.setNombre(var);
+                    System.out.println();
                     break;
                 case 2:
+                    System.out.println("");
                     proyecto.setFecha(scanFecha());
                     break;
                 case 3:
-                    System.out.println("Introduzca la nueva descripcion del proyecto.");
+                    System.out.print("\nNueva descripcion del proyecto: ");
                     var = scan.nextLine();
                     proyecto.setDescripcion(var);
+                    System.out.println();
                     break;
                 case 4:
-                    System.out.println("Saliendo...");
-                    System.out.println();
                     break;
                 default:
-                    System.out.println("Introduzca una opción válida.");
-                    System.out.println();
+                    System.out.println("\nIntroduzca una opción válida!\n");
             }
-
         }while(opcion != 4);
     }
-
-
-
 }
