@@ -28,14 +28,10 @@ public class Main {
             System.out.println("6. Editar proyecto");
             System.out.println("7. Listar proyectos");
             System.out.println("8. Ver proyecto");
-            System.out.println("9. Salir");
+            System.out.println("9. Eliminar tarea o proyecto");
+            System.out.println("10. Salir");
             System.out.print("> ");
-            try{
-                opt = scan.nextInt();
-            }catch(InputMismatchException e){
-                System.out.println("El valor introducido no es válido.");
-                opt = -1;
-            }
+            opt = scan.nextInt();
             scan.nextLine();
 
             switch (opt) {
@@ -95,8 +91,18 @@ public class Main {
                     } else
                         System.out.println("\nNo existe el proyecto indicado!\n");
                     break;
+                
+                case 9: 
+                    System.out.print("\nNombre de la asignación: ");
+                    nombre = scan.nextLine();
+                    if (usuario.existeAsignacion(nombre)) {
+                        Asignacion asig = usuario.borrarAsignacion(usuario.buscarAsignacion(nombre));
+                        System.out.println("Se ha borrado la asignación siguiente: " + asig.getNombre() + "\n");
+                    } else
+                        System.out.println("\nNo existe la tarea indicada!\n");
+                    break;
 
-                case 9:
+                case 10:
                     Autenticacion.registrarAtributos(usuario);
                     System.out.println("\nSaliendo...");
                     break;
@@ -105,7 +111,7 @@ public class Main {
                     System.out.println("\nSelecciona una opción válida!\n");
                     break;
             }
-        } while (opt != 9);
+        } while (opt != 10);
 
         scan.close();
     }

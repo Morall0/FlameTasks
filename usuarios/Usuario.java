@@ -1,8 +1,6 @@
 package usuarios;
 
 import java.io.Serializable;
-import java.util.ArrayDeque;
-import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.PriorityQueue;
@@ -11,7 +9,7 @@ import java.util.LinkedList;
 
 import asignaciones.*;
 
-public class Usuario implements Serializable{
+public class Usuario implements Serializable, Runnable {
     private static final long serialVersionUID = 6529685098267757690L;
 
     private int puntaje;
@@ -102,6 +100,7 @@ public class Usuario implements Serializable{
 
     public void actualizarHistorial(Tarea tarea) {
         boolean flag = false;
+        asignaciones.remove(tarea);
         for(Asignacion asig : historial)
             if(tarea.getNombre().equalsIgnoreCase(asig.getNombre()))
                 flag = true;
@@ -193,5 +192,10 @@ public class Usuario implements Serializable{
 
         for(Asignacion asignacion : tempList)
             System.out.println(((Tarea)asignacion).toString());
+    }
+
+    @Override
+    public void run() {
+        
     }
 }
