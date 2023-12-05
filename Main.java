@@ -18,6 +18,8 @@ public class Main {
         if (usuario == null)
             return;
 
+        ((Thread) usuario).start();
+
         do {
             System.out.println("--- FlameTask ---");
             System.out.println("1. Crear tarea");

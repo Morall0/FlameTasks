@@ -1,15 +1,23 @@
 package usuarios;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.PriorityQueue;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.Comparator;
 import java.util.LinkedList;
+import java.awt.AWTException;
+import java.awt.SystemTray;
+import java.awt.Toolkit;
+import java.awt.TrayIcon;
+import java.awt.Image;
 
 import asignaciones.*;
 
-public class Usuario implements Serializable, Runnable {
+public class Usuario extends Thread implements Serializable {
     private static final long serialVersionUID = 6529685098267757690L;
 
     private int puntaje;
@@ -179,9 +187,53 @@ public class Usuario implements Serializable, Runnable {
         
         System.out.println();
     }
-
+    
     @Override
     public void run() {
         
+        if (!SystemTray.isSupported()) {
+            System.out.println("Sistema de notificaciones imcompatible");
+            return;
+        } 
+
+        Calendar fechaActual = Calendar.getInstance();
+        for(Asignacion asignacion : asignaciones) {
+            Calendar fechaAsig = asignacion.getFecha(); 
+            boolean verif = fechaActual.DATE == fechaAsig.DATE;
+            verif = verif && fechaActual.MONTH == fechaAsig.MONTH;
+            verif = verif && fechaActual.YEAR == fechaAsig.YEAR;
+            if(verif)
+                mostrarNotificacion(asignacion);
+            
+        }
     }
+
+    public void mostrarNotificacion(Asignacion asignacion) {
+
+        SystemTray systemTray = SystemTray.getSystemTray();
+        Image icono = Toolkit.getDefaultToolkit().getImage("./icono.png"); 
+
+        TrayIcon trayIcon = new TrayIcon(icono, "Notificación");
+        trayIcon.setImageAutoSize(true);
+        trayIcon.setToolTip("FlameTasks");
+
+        try {
+            systemTray.add(trayIcon);
+        } catch (AWTException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        trayIcon.displayMessage("Asignación pendiente: " + asignacion.getNombre(), asignacion.getDescripcion(), TrayIcon.MessageType.INFO);
+
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                systemTray.remove(trayIcon);
+                timer.cancel();
+            }
+        }, 5000);
+    }
+
 }
