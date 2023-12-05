@@ -28,15 +28,17 @@ public class Main {
             System.out.println("6. Editar proyecto");
             System.out.println("7. Listar proyectos");
             System.out.println("8. Ver proyecto");
-            System.out.println("9. Salir");
+            System.out.println("9. Eliminar tarea o proyecto");
+            System.out.println("10. Salir");
             System.out.print("> ");
-            try{
+            try {
                 opt = scan.nextInt();
-            }catch(InputMismatchException e){
+                scan.nextLine();
+            } catch(InputMismatchException e){
+                scan.nextLine();
                 System.out.println("El valor introducido no es válido.");
                 opt = -1;
             }
-            scan.nextLine();
 
             switch (opt) {
                 case 1:
@@ -59,7 +61,7 @@ public class Main {
                 case 4:
                     System.out.println("\nMarcar como completada");
                     usuario.listarTodo(0);
-                    System.out.print("\nNombre de la tarea: ");
+                    System.out.print("Nombre de la tarea: ");
                     nombre = scan.nextLine();
                     if (usuario.existeAsignacion(nombre)) {
                         tarea = (Tarea) usuario.buscarAsignacion(nombre);
@@ -108,8 +110,18 @@ public class Main {
                     } else
                         System.out.println("\nNo existe el proyecto indicado!\n");
                     break;
+                
+                case 9: 
+                    System.out.print("\nNombre de la asignación: ");
+                    nombre = scan.nextLine();
+                    if (usuario.existeAsignacion(nombre)) {
+                        Asignacion asig = usuario.borrarAsignacion(usuario.buscarAsignacion(nombre));
+                        System.out.println("Se ha borrado la asignación siguiente: " + asig.getNombre() + "\n");
+                    } else
+                        System.out.println("\nNo existe la tarea indicada!\n");
+                    break;
 
-                case 9:
+                case 10:
                     Autenticacion.registrarAtributos(usuario);
                     System.out.println("\nSaliendo...");
                     break;
@@ -118,7 +130,7 @@ public class Main {
                     System.out.println("\nSelecciona una opción válida!\n");
                     break;
             }
-        } while (opt != 9);
+        } while (opt != 10);
 
         scan.close();
     }
@@ -135,30 +147,30 @@ public class Main {
         System.out.print("Descripción: ");
         descripcion = scan.nextLine();
 
-        do{
-            try{
+        do {
+            try {
                 System.out.print("Puntaje: ");
                 puntaje = scan.nextInt();
                 scan.nextLine();
-
-            }catch(InputMismatchException e){
+            } catch(InputMismatchException e){
+                scan.nextLine();
                 System.out.println("Este puntaje no es válido.");
                 puntaje = -1;
             }
-        }while(puntaje == -1);
+        } while(puntaje == -1);
         
 
-        System.out.print("Importancia: ");
-        do{
+        do {
             System.out.print("Importancia: ");
             try{
                 importancia = scan.nextByte();
+                scan.nextLine();
             }catch(InputMismatchException e){
+                scan.nextLine();
                 System.out.println("Este valor no es válido.");
                 importancia = -1;
             }
-        }while(importancia == -1);
-        scan.nextLine();
+        } while(importancia == -1);
 
         System.out.println("Fecha");
         fecha = scanFecha();
@@ -176,12 +188,13 @@ public class Main {
         System.out.println("2. Editar tarea de un proyecto");
         System.out.println("3. Cancelar edición");
         System.out.print("> ");
-        try{
+        try {
             opt = scan.nextInt();
-        }catch(InputMismatchException e){
+            scan.nextLine();
+        } catch(InputMismatchException e){
+            scan.nextLine();
             opt = 0;
         }
-        scan.nextLine();
         
         do {
             switch(opt) {
@@ -214,6 +227,7 @@ public class Main {
                     break;
 
                 case 3:
+                    System.out.println();
                     break;
                 default:
                     System.out.println("\nSelecciona una opción válida!\n");
@@ -234,12 +248,14 @@ public class Main {
             System.out.println("5. Cambiar importancia");
             System.out.println("6. Regresar al menú principal");
             System.out.print("> ");
-            try{
+
+            try {
                 opcion = scan.nextInt();
-            }catch(InputMismatchException e){
+                scan.nextLine();
+            } catch(InputMismatchException e){
+                scan.nextLine();
                 opcion = 0;
             }
-            scan.nextLine();
 
             switch (opcion) {
                 case 1:
@@ -267,6 +283,7 @@ public class Main {
                 case 5:
                     System.out.print("Ingrese la nueva importancia: ");
                     tarea.setImportancia(scan.nextByte());
+                    scan.nextLine();
                     break;
 
                 case 6:
@@ -312,8 +329,9 @@ public class Main {
             System.out.println("[Y] Sí, [N] No");
             System.out.print("> ");
             rep = (scan.nextLine().equalsIgnoreCase("y")) ? 0 : 1;
-            System.out.println();
         }
+
+        System.out.println();
     }
 
     public static Calendar scanFecha() {
@@ -325,16 +343,16 @@ public class Main {
         try{
             System.out.print("Día: ");
             dia = scan.nextInt();
+            scan.nextLine();
             if(dia > 31 || dia < 1){
                 throw new IllegalArgumentException();
             }
-            scan.nextLine();
             System.out.print("Mes: ");
             mes = scan.nextInt();
+            scan.nextLine();
             if(mes > 12 || mes < 0){
                 throw new IllegalArgumentException();
             }
-            scan.nextLine();
             System.out.print("Año: ");
             anio = scan.nextInt();
             scan.nextLine();
@@ -365,13 +383,14 @@ public class Main {
         System.out.println("1. Por fecha");
         System.out.println("2. Por importancia");
         System.out.print("> ");
-        try{
+        try {
             opcion = scan.nextInt();
-        }catch(InputMismatchException e){
+            scan.nextLine();
+        } catch(InputMismatchException e){
+            scan.nextLine();
             opcion = 0;
         }
-        
-        scan.nextLine();
+        System.out.println(); 
 
         switch(opcion){
             case 1:
