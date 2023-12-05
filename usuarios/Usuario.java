@@ -197,14 +197,18 @@ public class Usuario extends Thread implements Serializable {
         } 
 
         Calendar fechaActual = Calendar.getInstance();
+        fechaActual.set(Calendar.HOUR, 0);
+        fechaActual.set(Calendar.MINUTE, 0);
+        fechaActual.set(Calendar.SECOND, 0);
+        fechaActual.set(Calendar.MILLISECOND, 0);
         for(Asignacion asignacion : asignaciones) {
             Calendar fechaAsig = asignacion.getFecha(); 
-            boolean verif = fechaActual.DATE == fechaAsig.DATE;
-            verif = verif && fechaActual.MONTH == fechaAsig.MONTH;
-            verif = verif && fechaActual.YEAR == fechaAsig.YEAR;
-            if(verif)
+            fechaAsig.set(Calendar.HOUR, 0);
+            fechaAsig.set(Calendar.MINUTE, 0);
+            fechaAsig.set(Calendar.SECOND, 0);
+            fechaAsig.set(Calendar.MILLISECOND, 0);
+            if(fechaActual.equals(fechaAsig))
                 mostrarNotificacion(asignacion);
-            
         }
     }
 
